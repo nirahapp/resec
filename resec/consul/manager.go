@@ -153,7 +153,7 @@ func (m *Manager) acquireConsulLeadership() {
 
 // releaseConsulLock stops consul lock handler")
 func (m *Manager) releaseConsulLock() {
-	if m.state.Master == false {
+	if !m.state.Master {
 		m.logger.Debug("Can't release Consul lock, we don't have it")
 		return
 	}

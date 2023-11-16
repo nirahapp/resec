@@ -20,7 +20,7 @@ func (r *Redis) IsRedisMaster() bool {
 }
 
 func (r *Redis) IsUnhealthy() bool {
-	return r.Healthy == false
+	return !r.Healthy
 }
 
 type RedisStatus struct {
