@@ -7,9 +7,10 @@ import (
 	"time"
 
 	gelf "github.com/seatgeek/logrus-gelf-formatter"
-	"github.com/seatgeek/resec/resec/reconciler"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
+
+	"github.com/nirahapp/resec/resec/reconciler"
 )
 
 var Version = "local-dev"
@@ -114,6 +115,22 @@ func main() {
 			Name:    "redis-password",
 			Usage:   "Password for the Redis server",
 			EnvVars: []string{"REDIS_PASSWORD"},
+		},
+		&cli.BoolFlag{
+			Name:  "tls",
+			Usage: "Enable TLS with redis (needs a custom redis build with BUILD_TLS=yes flag)",
+		},
+		&cli.PathFlag{
+			Name:  "tls-cert",
+			Usage: "Specify the certificate for TLS/SSL",
+		},
+		&cli.PathFlag{
+			Name:  "tls-key",
+			Usage: "Specify the key for TLS/SSL",
+		},
+		&cli.PathFlag{
+			Name:  "tls-cacert",
+			Usage: "Specify the CA certificate for TLS/SSL",
 		},
 	}
 	app.Before = func(c *cli.Context) error {

@@ -5,7 +5,8 @@ import (
 	"time"
 
 	consulapi "github.com/hashicorp/consul/api"
-	"github.com/seatgeek/resec/resec/state"
+
+	"github.com/nirahapp/resec/resec/state"
 )
 
 // emit will emit a consul state change to the reconciler

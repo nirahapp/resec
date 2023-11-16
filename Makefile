@@ -30,8 +30,12 @@ install: requirements
 
 # Shortcut for `go build` with custom GO_LDFLAGS enabled
 .PHONY: build
-build: requirements
+build: clean requirements
 	$(MAKE) -j $(BINARIES)
+
+.PHONY: clean
+clean:
+	rm -rf $(BUILD_DIR)
 
 BINARIES = $(addprefix $(BUILD_DIR)/resec-, $(GOBUILD))
 $(BINARIES): $(BUILD_DIR)/resec-%: $(BUILD_DIR)

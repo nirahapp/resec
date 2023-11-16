@@ -9,11 +9,12 @@ import (
 	"time"
 
 	"github.com/bep/debounce"
-	"github.com/seatgeek/resec/resec/consul"
-	"github.com/seatgeek/resec/resec/redis"
-	"github.com/seatgeek/resec/resec/state"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/d4l3k/messagediff.v1"
+
+	"github.com/nirahapp/resec/resec/consul"
+	"github.com/nirahapp/resec/resec/redis"
+	"github.com/nirahapp/resec/resec/state"
 )
 
 const (

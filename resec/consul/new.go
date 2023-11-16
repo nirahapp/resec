@@ -8,10 +8,11 @@ import (
 
 	consulapi "github.com/hashicorp/consul/api"
 	"github.com/jpillora/backoff"
-	"github.com/seatgeek/resec/resec/redis"
-	"github.com/seatgeek/resec/resec/state"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
+
+	"github.com/nirahapp/resec/resec/redis"
+	"github.com/nirahapp/resec/resec/state"
 )
 
 func NewConnection(c *cli.Context, redisConfig redis.Config) (*Manager, error) {

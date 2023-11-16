@@ -5,9 +5,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/seatgeek/resec/resec/consul"
-	"github.com/seatgeek/resec/resec/redis"
 	"github.com/urfave/cli/v2"
+
+	"github.com/nirahapp/resec/resec/consul"
+	"github.com/nirahapp/resec/resec/redis"
 )
 
 // setup returns the default configuration for the ReSeC

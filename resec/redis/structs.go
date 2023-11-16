@@ -3,8 +3,9 @@ package redis
 import (
 	"github.com/go-redis/redis"
 	"github.com/jpillora/backoff"
-	"github.com/seatgeek/resec/resec/state"
 	log "github.com/sirupsen/logrus"
+
+	"github.com/nirahapp/resec/resec/state"
 )
 
 type Manager struct {

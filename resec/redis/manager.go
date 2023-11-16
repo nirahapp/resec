@@ -7,7 +7,8 @@ import (
 	"time"
 
 	"github.com/go-redis/redis"
-	"github.com/seatgeek/resec/resec/state"
+
+	"github.com/nirahapp/resec/resec/state"
 )
 
 // emit will send a state update to the reconciler
