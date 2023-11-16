@@ -34,11 +34,30 @@ Having the windows in the same tab makes it easy to kill / restart / debug issue
 
 All the terminal windows should have their current directory (CWD) set to the directory with the Resec source code.
 
+To run with TLS/SSL follow the steps:
+1. In user home folder, download the redis release: `curl -L https://github.com/redis/redis/archive/refs/tags/7.2.3.zip -o redis.zip`
+2. Unzip: `unzip -q -o redis.zip`
+3. Change Directory into the extracted folder: `cd redis-7.2.3`
+4. Build Redis with TLS: `make BUILD_TLS=yes -j 16`
+5. Generate certs & keys: `bash utils/gen-test-certs.sh`
+
 * Redis 1: `$ redis-server --port 6666`
+
+* Redis 1 (with TLS/SSL): `./src/redis-server --tls-port 6666 --tls-cert-file tests/tls/redis.crt --tls-key-file tests/tls/redis.key --tls-ca-cert-file tests/tls/ca.crt --port 0 --tls-replication yes`
+
 * Redis 2: `$ redis-server --port 7777`
+
+* Redis 2 (with TLS/SSL): `./src/redis-server --tls-port 7777 --tls-cert-file tests/tls/redis.crt --tls-key-file tests/tls/redis.key --tls-ca-cert-file tests/tls/ca.crt --port 0 --tls-replication yes`
+
 * Consul : `$ consul agent -bind 127.0.0.1 -server -bootstrap-expect 1 -data-dir /tmp/consul-test -ui -node resec-local`
+
 * Resec 1: `$ resec --consul-master-tags master --consul-service-name redis --consul-slave-tags slave --redis-addr 127.0.0.1:6666`
+
+* Resec 1 (with TLS/SSL): `./build/resec-linux-amd64 --consul-master-tags master --consul-service-name redis --consul-slave-tags slave --redis-addr localhost:6666 -tls -tls-cert-file /home/work/redis-7.2.3/tests/tls/redis.crt -tls-key-file /home/work/redis-7.2.3/tests/tls/redis.key -tls-ca-cert-file /home/work/redis-7.2.3/tests/tls/ca.crt --tls-insecure-skip-verify`
+
 * Resec 2: `$ resec --consul-master-tags master --consul-service-name redis --consul-slave-tags slave --redis-addr 127.0.0.1:7777`
+
+* Resec 1 (with TLS/SSL): `./build/resec-linux-amd64 --consul-master-tags master --consul-service-name redis --consul-slave-tags slave --redis-addr 127.0.0.1:7777 -tls -tls-cert-file /home/work/redis-7.2.3/tests/tls/redis.crt -tls-key-file /home/work/redis-7.2.3/tests/tls/redis.key -tls-ca-cert-file /home/work/redis-7.2.3/tests/tls/ca.crt --tls-insecure-skip-verify`
 
 ```text
                                 iTerm 2

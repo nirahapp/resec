@@ -22,11 +22,11 @@ func NewConnection(m *cli.Context) (*Manager, error) {
 	var redisClient *redis.Client
 
 	if m.Bool("tls") {
-		cert, err := tls.LoadX509KeyPair(m.Path("tls-cert"), m.Path("tls-key"))
+		cert, err := tls.LoadX509KeyPair(m.Path("tls-cert-file"), m.Path("tls-key-file"))
 		if err != nil {
 			return nil, fmt.Errorf("failed to load TLS key pair: %s", err)
 		}
-		caCert, err := os.ReadFile(m.Path("tls-cacert"))
+		caCert, err := os.ReadFile(m.Path("tls-ca-cert-file"))
 		if err != nil {
 			return nil, fmt.Errorf("failed to read CA certificate: %s", err)
 		}
@@ -35,7 +35,7 @@ func NewConnection(m *cli.Context) (*Manager, error) {
 		tlsConfig := &tls.Config{
 			Certificates:       []tls.Certificate{cert},
 			RootCAs:            caCertPool,
-			InsecureSkipVerify: true,
+			InsecureSkipVerify: m.Bool("tls-insecure-skip-verify"),
 		}
 
 		redisClient = redis.NewClient(&redis.Options{
