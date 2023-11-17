@@ -1,4 +1,4 @@
-module github.com/seatgeek/resec
+module github.com/nirahapp/resec
 
 go 1.13
 

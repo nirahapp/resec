@@ -6,11 +6,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seatgeek/resec/resec/consul"
-	"github.com/seatgeek/resec/resec/redis"
-	"github.com/seatgeek/resec/resec/state"
 	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/nirahapp/resec/resec/consul"
+	"github.com/nirahapp/resec/resec/redis"
+	"github.com/nirahapp/resec/resec/state"
 )
 
 type helper struct {

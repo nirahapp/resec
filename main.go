@@ -7,9 +7,10 @@ import (
 	"time"
 
 	gelf "github.com/seatgeek/logrus-gelf-formatter"
-	"github.com/seatgeek/resec/resec/reconciler"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
+
+	"github.com/nirahapp/resec/resec/reconciler"
 )
 
 var Version = "local-dev"
@@ -115,6 +116,31 @@ func main() {
 			Usage:   "Password for the Redis server",
 			EnvVars: []string{"REDIS_PASSWORD"},
 		},
+		&cli.BoolFlag{
+			Name:    "tls",
+			Usage:   "Enable TLS with redis (needs a custom redis build with BUILD_TLS=yes flag)",
+			EnvVars: []string{"REDIS_TLS"},
+		},
+		&cli.PathFlag{
+			Name:    "tls-cert-file",
+			Usage:   "Specify the certificate for TLS/SSL",
+			EnvVars: []string{"REDIS_TLS_CERT_FILE"},
+		},
+		&cli.PathFlag{
+			Name:    "tls-key-file",
+			Usage:   "Specify the key for TLS/SSL",
+			EnvVars: []string{"REDIS_TLS_KEY_FILE"},
+		},
+		&cli.PathFlag{
+			Name:    "tls-ca-cert-file",
+			Usage:   "Specify the CA certificate for TLS/SSL",
+			EnvVars: []string{"REDIS_TLS_CA_CERT_FILE"},
+		},
+		&cli.BoolFlag{
+			Name:    "tls-insecure-skip-verify",
+			Usage:   "Is Isecure Skip Verify set as true?",
+			EnvVars: []string{"REDIS_INSECURE_SKIP_VERIFY"},
+		},
 	}
 	app.Before = func(c *cli.Context) error {
 		level, err := log.ParseLevel(c.String("log-level"))
@@ -141,6 +167,13 @@ func main() {
 		}
 
 		log.Infof("Starting ReSeC %s", Version)
+		if c.Bool("tls") {
+			if c.String("tls-cert-file") == "" ||
+				c.String("tls-key-file") == "" ||
+				c.String("tls-ca-cert-file") == "" {
+				log.Fatalf("all TLS related flags (tls-cert-file, tls-key-file, tls-ca-cert-file) must be provided when TLS is enabled")
+			}
+		}
 		return nil
 	}
 	app.Action = func(c *cli.Context) error {

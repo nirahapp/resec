@@ -5,8 +5,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seatgeek/resec/resec/state"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/nirahapp/resec/resec/state"
 )
 
 func TestManager_parseReplicationResult(t *testing.T) {

@@ -5,7 +5,8 @@ import (
 	"time"
 
 	consulapi "github.com/hashicorp/consul/api"
-	"github.com/seatgeek/resec/resec/state"
+
+	"github.com/nirahapp/resec/resec/state"
 )
 
 // emit will emit a consul state change to the reconciler
@@ -152,7 +153,7 @@ func (m *Manager) acquireConsulLeadership() {
 
 // releaseConsulLock stops consul lock handler")
 func (m *Manager) releaseConsulLock() {
-	if m.state.Master == false {
+	if !m.state.Master {
 		m.logger.Debug("Can't release Consul lock, we don't have it")
 		return
 	}

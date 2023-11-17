@@ -6,9 +6,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seatgeek/resec/resec/consul"
-	"github.com/seatgeek/resec/resec/redis"
-	"github.com/seatgeek/resec/resec/state"
+	"github.com/nirahapp/resec/resec/consul"
+	"github.com/nirahapp/resec/resec/redis"
+	"github.com/nirahapp/resec/resec/state"
 )
 
 func TestReconciler_RunBecomeMaster(t *testing.T) {
@@ -220,6 +220,7 @@ func TestReconciler_SlaveMasterSyncInProgress(t *testing.T) {
 		).
 		eval(ResultMasterSyncInProgress)
 }
+
 func TestReconciler_SlaveMasterLinkDownToolong(t *testing.T) {
 	helper := newTestReconciler(t)
 	helper.consume()
@@ -250,6 +251,7 @@ func TestReconciler_SlaveMasterLinkDownToolong(t *testing.T) {
 		).
 		eval(ResultMasterLinkDown)
 }
+
 func TestReconciler_SlaveMasterLinkDownWithinReason(t *testing.T) {
 	helper := newTestReconciler(t)
 	helper.consume()

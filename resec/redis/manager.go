@@ -7,7 +7,8 @@ import (
 	"time"
 
 	"github.com/go-redis/redis"
-	"github.com/seatgeek/resec/resec/state"
+
+	"github.com/nirahapp/resec/resec/state"
 )
 
 // emit will send a state update to the reconciler
@@ -120,43 +121,41 @@ func (m *Manager) watchStatus() {
 	interval := time.Second
 	timer := time.NewTimer(interval)
 
-	for {
-		select {
-		case <-timer.C:
-			result, err := m.client.Info().Result()
-			// any failure will trigger a disconnect event
-			if err != nil {
-				m.state.Healthy = false
-				m.emit()
-
-				// Lets start backing off in case it's a long standing issue that is going on
-				backoffDuration := m.backoff.Duration()
-				m.logger.Errorf("Redis is not healthy, going to apply backoff of %s until next attempt: %s", backoffDuration.Round(time.Second).String(), err)
-				timer.Reset(backoffDuration)
-				continue
-			}
-
-			// Success, reset the backoff counter
-			m.backoff.Reset()
-
-			// Queue next execution
-			timer.Reset(interval)
-
-			// Parse the "info" result from Redis
-			info := m.parseInfoResult(result)
-
-			// If Redis is loading data from disk, do not mark us as healthy
-			// If Redis is _not_ loading data from disk, we're healthy
-			m.state.Healthy = !info.Loading
-
-			// Mark Redis as "ready" (e.g. we can connect)
-			m.state.Ready = true
-
-			// Update state with most recent output
-			m.state.Info = info
-			m.state.InfoString = result
+	for range timer.C {
+		result, err := m.client.Info().Result()
+		// any failure will trigger a disconnect event
+		if err != nil {
+			m.state.Healthy = false
 			m.emit()
+
+			// Lets start backing off in case it's a long standing issue that is going on
+			backoffDuration := m.backoff.Duration()
+			m.logger.Errorf("Redis is not healthy, going to apply backoff of %s until next attempt: %s", backoffDuration.Round(time.Second).String(), err)
+			timer.Reset(backoffDuration)
+			continue
 		}
+
+		// Success, reset the backoff counter
+		m.backoff.Reset()
+
+		// Queue next execution
+		timer.Reset(interval)
+
+		// Parse the "info" result from Redis
+		info := m.parseInfoResult(result)
+
+		// If Redis is loading data from disk, do not mark us as healthy
+		// If Redis is _not_ loading data from disk, we're healthy
+		m.state.Healthy = !info.Loading
+
+		// Mark Redis as "ready" (e.g. we can connect)
+		m.state.Ready = true
+
+		// Update state with most recent output
+		m.state.Info = info
+		m.state.InfoString = result
+		m.emit()
+
 	}
 }
 

@@ -9,11 +9,12 @@ import (
 	"time"
 
 	"github.com/bep/debounce"
-	"github.com/seatgeek/resec/resec/consul"
-	"github.com/seatgeek/resec/resec/redis"
-	"github.com/seatgeek/resec/resec/state"
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/d4l3k/messagediff.v1"
+
+	"github.com/nirahapp/resec/resec/consul"
+	"github.com/nirahapp/resec/resec/redis"
+	"github.com/nirahapp/resec/resec/state"
 )
 
 const (
@@ -308,12 +309,12 @@ func (r *Reconciler) isMasterLinkDownTooLong() bool {
 // and Redis, so we are able to start making decissions on the state of
 // the Redis under management
 func (r *Reconciler) missingInitialState() bool {
-	if r.redisState.Ready == false {
+	if !r.redisState.Ready {
 		r.logger.Warn("Redis still missing initial state")
 		return true
 	}
 
-	if r.consulState.Ready == false {
+	if !r.consulState.Ready {
 		r.logger.Warn("Consul still missing initial state")
 		return true
 	}
@@ -373,12 +374,12 @@ func (r *Reconciler) stop() {
 				r.logger.Fatal("Did not gracefully shut down within 60s, hard quitting")
 
 			case <-intervalCh.C:
-				if r.redisState.Stopped && redisStopped == false {
+				if r.redisState.Stopped && !redisStopped {
 					redisStopped = true
 					wg.Done()
 				}
 
-				if r.consulState.Stopped && consulStopped == false {
+				if r.consulState.Stopped && !consulStopped {
 					consulStopped = true
 					wg.Done()
 				}
