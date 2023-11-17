@@ -57,7 +57,7 @@ To run with TLS/SSL follow the steps:
 
 * Resec 2: `$ resec --consul-master-tags master --consul-service-name redis --consul-slave-tags slave --redis-addr 127.0.0.1:7777`
 
-* Resec 1 (with TLS/SSL): `./build/resec-linux-amd64 --consul-master-tags master --consul-service-name redis --consul-slave-tags slave --redis-addr 127.0.0.1:7777 -tls -tls-cert-file /home/work/redis-7.2.3/tests/tls/redis.crt -tls-key-file /home/work/redis-7.2.3/tests/tls/redis.key -tls-ca-cert-file /home/work/redis-7.2.3/tests/tls/ca.crt --tls-insecure-skip-verify`
+* Resec 2 (with TLS/SSL): `./build/resec-linux-amd64 --consul-master-tags master --consul-service-name redis --consul-slave-tags slave --redis-addr 127.0.0.1:7777 -tls -tls-cert-file /home/work/redis-7.2.3/tests/tls/redis.crt -tls-key-file /home/work/redis-7.2.3/tests/tls/redis.key -tls-ca-cert-file /home/work/redis-7.2.3/tests/tls/ca.crt --tls-insecure-skip-verify`
 
 ```text
                                 iTerm 2
